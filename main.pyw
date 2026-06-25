@@ -5,7 +5,7 @@ import io
 import threading
 import os
 import json
-from tkinter import messagebox # 📦 Importiert das Pop-up-System
+from tkinter import messagebox 
 
 from applifey_core import create_pwa, load_local_settings, get_installed_apps, remove_pwa
 from applifey_cloud import fetch_and_validate_apps
@@ -13,7 +13,6 @@ from applifey_cloud import fetch_and_validate_apps
 ctk.set_appearance_mode("Light")
 ctk.set_default_color_theme("blue")
 
-# 🌍 DIE ERWEITERTE ÜBERSETZUNGS-DATENBANK
 TRANSLATIONS = {
     "en": {
         "settings_title": "Applifey - Settings & Manager",
@@ -118,20 +117,19 @@ class SettingsWindow(ctk.CTkToplevel):
         self.settings_path = os.path.join(self.home, ".config", "applifey", "settings.json")
         self.settings = load_local_settings()
 
-        # Sprachauswahl-Dropdown
+        
         ctk.CTkLabel(self, text=TRANSLATIONS[self.lang]["language_label"], font=ctk.CTkFont(size=12)).pack(anchor="w", padx=30, pady=(15, 0))
         self.lang_var = ctk.StringVar(value="English" if self.lang == "en" else "Deutsch")
         self.lang_dropdown = ctk.CTkOptionMenu(self, values=["English", "Deutsch"], variable=self.lang_var, command=self.change_language)
         self.lang_dropdown.pack(anchor="w", padx=30, pady=(5, 10))
 
-        # Branding-Schalter
+        
         self.branding_var = ctk.BooleanVar(value=self.settings.get("show_branding", True))
         self.branding_switch = ctk.CTkSwitch(
             self, text=TRANSLATIONS[self.lang]["branding_switch"], variable=self.branding_var, command=self.save_settings
         )
         self.branding_switch.pack(pady=10, padx=30, anchor="w")
 
-        # App-Manager Titel
         self.manage_label = ctk.CTkLabel(self, text=TRANSLATIONS[self.lang]["manage_title"], font=ctk.CTkFont(size=16, weight="bold"))
         self.manage_label.pack(anchor="w", padx=30, pady=(15, 5))
         
@@ -202,7 +200,7 @@ class ApplifeyApp(ctk.CTk):
         self.loaded_icons = {}
         self.all_apps = fetch_and_validate_apps()
 
-        # TOP BAR
+        
         self.top_bar = ctk.CTkFrame(self, fg_color="transparent")
         self.top_bar.pack(pady=(20, 5), fill="x", padx=40)
 
@@ -212,7 +210,7 @@ class ApplifeyApp(ctk.CTk):
         self.settings_btn = ctk.CTkButton(self.top_bar, text=TRANSLATIONS[self.lang]["settings_btn"], font=ctk.CTkFont(size=13, weight="bold"), fg_color="#F2F2F2", hover_color="#E5E5E5", text_color="#1A1A1A", width=120, height=35, command=self.open_settings)
         self.settings_btn.pack(side="right")
 
-        # CONTROL PANEL
+        
         self.control_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.control_frame.pack(pady=10, fill="x", padx=40)
 
@@ -228,7 +226,7 @@ class ApplifeyApp(ctk.CTk):
         self.search_entry = ctk.CTkEntry(self.control_frame, placeholder_text=TRANSLATIONS[self.lang]["search_placeholder"], textvariable=self.search_var, fg_color="#F2F2F2", text_color="#1A1A1A", border_width=0, corner_radius=8, height=35)
         self.search_entry.pack(side="right", fill="x", expand=True, padx=(10, 0))
 
-        # SCROLL AREA
+      
         self.grid_frame = ctk.CTkScrollableFrame(self, fg_color="transparent")
         self.grid_frame.pack(expand=True, fill="both", padx=40, pady=(10, 20))
         self.grid_frame.bind_all("<Button-4>", lambda e: self.grid_frame._parent_canvas.yview_scroll(-1, "units"))
@@ -251,7 +249,7 @@ class ApplifeyApp(ctk.CTk):
         CustomAppWindow(self)
 
     def trigger_install(self, name, url):
-        """Führt die Installation aus und zeigt direkt danach das mehrsprachige Pop-up."""
+        
         create_pwa(name, url, self.browser_var.get())
         messagebox.showinfo(TRANSLATIONS[self.lang]["notify_title"], f"'{name}' {TRANSLATIONS[self.lang]['notify_msg']}")
 
