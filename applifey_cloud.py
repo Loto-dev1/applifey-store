@@ -3,7 +3,7 @@ import json
 import time
 
 def fetch_and_validate_apps():
-    """Lädt die App-Liste live von GitHub und umgeht jeden Cache."""
+    
     url = "https://raw.githubusercontent.com/Loto-dev1/applifey-store/refs/heads/main/apps.json"
     
     fallback_apps = [
