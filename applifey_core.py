@@ -3,7 +3,7 @@ import urllib.request
 import json
 
 def load_local_settings():
-    """Lädt die lokalen Benutzereinstellungen (Standard: Englisch)."""
+  
     home = os.path.expanduser("~")
     settings_path = os.path.join(home, ".config", "applifey", "settings.json")
     defaults = {"show_branding": True, "default_browser": "brave", "language": "en"}
@@ -16,7 +16,7 @@ def load_local_settings():
     return defaults
 
 def get_installed_apps():
-    """Liest alle über Applifey installierten Apps aus dem System aus."""
+
     home = os.path.expanduser("~")
     applications_dir = os.path.join(home, ".local", "share", "applications")
     installed = []
@@ -39,7 +39,7 @@ def get_installed_apps():
     return installed
 
 def remove_pwa(desktop_file_name):
-    """Löscht eine PWA restlos vom Linux-System."""
+
     home = os.path.expanduser("~")
     applications_dir = os.path.join(home, ".local", "share", "applications")
     config_dir = os.path.join(home, ".config", "applifey")
@@ -54,7 +54,7 @@ def remove_pwa(desktop_file_name):
         os.remove(icon_path)
 
 def create_pwa(app_name, url, browser="brave"):
-    """Erstellt eine native Linux .desktop-Verknüpfung im Startmenü."""
+    
     home = os.path.expanduser("~")
     config_dir = os.path.join(home, ".config", "applifey")
     icon_dir = os.path.join(config_dir, "icons")
