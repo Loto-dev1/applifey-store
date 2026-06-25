@@ -22,5 +22,9 @@
     {
         "name": "Netflix",
         "url": "https://www.netflix.com"
+  },
+    {
+        "name": "Twitch",
+        "url": "https://www.twitch.tv"
     }
 ]
