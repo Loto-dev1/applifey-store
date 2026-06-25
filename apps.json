@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Microsoft 365",
+        "url": "https://www.office.com"
+    },
+    {
+        "name": "iCloud",
+        "url": "https://www.icloud.com"
+    },
+    {
+        "name": "WhatsApp Web",
+        "url": "https://web.whatsapp.com"
+    },
+    {
+        "name": "Photoshop Web",
+        "url": "https://photoshop.adobe.com"
+    },
+    {
+        "name": "GeForce NOW",
+        "url": "https://play.geforcenow.com"
+    },
+    {
+        "name": "Netflix",
+        "url": "https://www.netflix.com"
+    }
+]
