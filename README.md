@@ -20,3 +20,4 @@ No more cluttered browser tabs—launch your favorite web tools directly from yo
 *Note: Applifey is currently in active development.*
 
 Once fully released, Applifey will be available as a standalone **AppImage**. You will not need to install Python or any extra software. Just download the file, make it executable, and double-click to run!
+*Note: Gemini helped me by coding*
