@@ -5,35 +5,39 @@ on:
 
 jobs:
   add_app:
-    if: contains(github.event.comment.body, '/accept') && contains(github.event.issue.labels.*.name, 'app-proposal')
+   
+    if: |
+      contains(github.event.comment.body, '/accept') && 
+      (github.event.comment.author_association == 'OWNER' || github.event.comment.author_association == 'COLLABORATOR')
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Parse Issue Data
+      - uses: actions/checkout@v4
+      
+      - name: Parse Form Data
         id: parse
         run: |
           BODY="${{ github.event.issue.body }}"
-          NAME=$(echo "$BODY" | grep -A 2 "### Name der App" | tail -n 1 | xargs)
-          URL=$(echo "$BODY" | grep -A 2 "### Web-Adresse (URL)" | tail -n 1 | xargs)
-          echo "APP_NAME=$NAME" >> $GITHUB_ENV
-          echo "APP_URL=$URL" >> $GITHUB_ENV
+          # Greift den Namen und die URL sicher ab
+          NAME=$(echo "$BODY" | grep -A 1 "### Name der App" | tail -n 1 | xargs)
+          URL=$(echo "$BODY" | grep -A 1 "### Web-Adresse (URL)" | tail -n 1 | xargs)
+          echo "name=$NAME" >> $GITHUB_OUTPUT
+          echo "url=$URL" >> $GITHUB_OUTPUT
 
-      - name: Update apps.json
+      - name: Update JSON
         run: |
-          jq --arg name "$APP_NAME" --arg url "$APP_URL" '. += [{"name": $name, "url": $url}]' apps.json > tmp.json && mv tmp.json apps.json
+          jq --arg name "${{ steps.parse.outputs.name }}" --arg url "${{ steps.parse.outputs.url }}" \
+          '. += [{"name": $name, "url": $url}]' apps.json > tmp.json && mv tmp.json apps.json
 
-      - name: Commit and Push Changes
+      - name: Commit & Push
         run: |
-          git config --global user.name "GitHub Action Bot"
-          git config --global user.email "action@github.com"
+          git config user.name "bot"
+          git config user.email "bot@bot.com"
           git add apps.json
-          git commit -m "🌐 Global App Added: $APP_NAME"
+          git commit -m "Add ${{ steps.parse.outputs.name }}"
           git push
 
-      - name: Close Issue with success comment
+      - name: Success Comment
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ github.event.issue.number }}
-          body: "🚀 The app **${{ env.APP_NAME }}** has been successfully approved and added to the global store!"
+          body: "🚀 App '${{ steps.parse.outputs.name }}' successfully added by a verified admin!"
