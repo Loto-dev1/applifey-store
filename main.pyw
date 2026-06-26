@@ -307,7 +307,7 @@ class ApplifeyApp(ctk.CTk):
             label = ctk.CTkLabel(card, text=app_name, font=ctk.CTkFont(family="Arial", size=15, weight="bold"), text_color="#1A1A1A")
             label.pack(pady=5)
 
-            # Button ruft jetzt trigger_install auf für Sound + Pop-up
+            
             btn = ctk.CTkButton(
                 card, text=TRANSLATIONS[self.lang]["install_btn"], font=ctk.CTkFont(size=12, weight="bold"),
                 fg_color="#007AFF", hover_color="#0056B3", text_color="#FFFFFF", corner_radius=8, height=30,
