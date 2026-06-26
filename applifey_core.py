@@ -101,5 +101,5 @@ def create_pwa(app_name, url, browser="brave"):
         
     os.chmod(desktop_file_path, 0o755)
     
-    # 🔊 Spielt einen kurzen Linux-System-Sound ab (Bell / Notification)
+    
     os.system("echo -e '\a'")
