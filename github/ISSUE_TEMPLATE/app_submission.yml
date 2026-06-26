@@ -3,21 +3,17 @@ description: "Propose a new PWA web app to be added to the global Applifey store
 title: "[App-Submission]: "
 labels: ["app-proposal"]
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for wanting to improve the Applifey Store! Please fill out the form below.
   - type: input
     id: app_name
     attributes:
       label: "Name der App"
-      placeholder: "e.g., YouTube, Discord, Notion..."
+      placeholder: "e.g., YouTube"
     validations:
       required: true
   - type: input
     id: app_url
     attributes:
       label: "Web-Adresse (URL)"
-      placeholder: "https://www.example.com"
+      placeholder: "https://www.youtube.com"
     validations:
       required: true
