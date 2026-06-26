@@ -1,0 +1,39 @@
+name: Auto Accept App
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  add_app:
+    if: contains(github.event.comment.body, '/accept') && contains(github.event.issue.labels.*.name, 'app-proposal')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Parse Issue Data
+        id: parse
+        run: |
+          BODY="${{ github.event.issue.body }}"
+          NAME=$(echo "$BODY" | grep -A 2 "### Name der App" | tail -n 1 | xargs)
+          URL=$(echo "$BODY" | grep -A 2 "### Web-Adresse (URL)" | tail -n 1 | xargs)
+          echo "APP_NAME=$NAME" >> $GITHUB_ENV
+          echo "APP_URL=$URL" >> $GITHUB_ENV
+
+      - name: Update apps.json
+        run: |
+          jq --arg name "$APP_NAME" --arg url "$APP_URL" '. += [{"name": $name, "url": $url}]' apps.json > tmp.json && mv tmp.json apps.json
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "GitHub Action Bot"
+          git config --global user.email "action@github.com"
+          git add apps.json
+          git commit -m "🌐 Global App Added: $APP_NAME"
+          git push
+
+      - name: Close Issue with success comment
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: "🚀 The app **${{ env.APP_NAME }}** has been successfully approved and added to the global store!"
